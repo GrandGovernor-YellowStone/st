@@ -1,0 +1,6 @@
+st
+*.o
+config.h
+*.orig
+*.rej
+st_combined_custom.diff

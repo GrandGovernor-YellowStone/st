@@ -1,34 +1,63 @@
-st - simple terminal
---------------------
-st is a simple terminal emulator for X which sucks less.
+# st - simple terminal (Custom Build)
 
+## 简介 / Introduction
+这是对 suckless.org 官方 **st (simple terminal)** 的个人定制版本。st 是一个为 X 窗口系统设计的简单终端仿真器，遵循 "sucks less" 的哲学。
 
-Requirements
-------------
-In order to build st you need the Xlib header files.
+This is a customized build of the official **st (simple terminal)** from suckless.org. st is a simple terminal emulator for X which follows the "sucks less" philosophy.
 
+---
 
-Installation
-------------
-Edit config.mk to match your local setup (st is installed into
-the /usr/local namespace by default).
+## 集成的补丁 / Applied Patches
+本项目集成了以下来自 [suckless.org](https://st.suckless.org/patches/) 官方网站的补丁：
+This build incorporates the following patches provided by the [suckless.org](https://st.suckless.org/patches/) community:
 
-Afterwards enter the following command to build and install st (if
-necessary as root):
+* **Clipboard**: 允许同步剪贴板。 / Synchronize clipboard.
+* **Fullscreen**: 支持全屏切换。 / Toggle fullscreen.
+* **Kitty Graphics (Sixel)**: 支持 Sixel 图形协议（基于 Kitty 协议改进）。 / Support for Sixel graphics protocols.
+* **Scrollback**: 允许使用键盘回滚查看历史。 / Scrollback buffer support.
+* **Scrollback Mouse**: 允许使用鼠标滚轮进行回滚。 / Mouse wheel scrollback support.
+* **Xresources**: 支持通过 `.Xresources` 配置文件管理颜色和设置。 / Manage colors and settings via `.Xresources`.
 
-    make clean install
+---
 
+## 自定义合并补丁 / Combined Patch
+为了方便在 **st 0.9.3** 源代码上快速部署，我将上述 6 个补丁合并为了一个单一的补丁文件：
+For easy deployment on **st 0.9.3** source code, I have combined the 6 patches above into a single patch file:
 
-Running st
-----------
-If you did not install st with make clean install, you must compile
-the st terminfo entry with the following command:
+📄 `patches/st_combined_custom.diff`
 
-    tic -sx st.info
+你可以直接使用该文件对干净的 st 0.9.3 源码进行一键打补丁。
+You can use this file to patch a clean st 0.9.3 source tree in one step.
 
-See the man page for additional details.
+---
 
-Credits
--------
-Based on Aurélien APTEL <aurelien dot aptel at gmail dot com> bt source code.
+## 使用方法
+### 方案A
+克隆本仓库 / Clone this repository
+git clone https://github.com/GrandGovernor-YellowStone/st
+cd st
 
+编译 / Build
+make
+
+运行测试 / Run test
+./st
+
+清理（可选）/ Clean (Optional)
+make clean
+
+### 方案B
+克隆官方仓库 / Clone the official suckless st repository
+git clone https://git.suckless.org/st
+cd st
+
+下载合并补丁 / Download the combined patch
+注：此链接指向本仓库 main 分支下的原始文件
+wget https://raw.githubusercontent.com/GrandGovernor-YellowStone/st/main/patches/st_combined_custom.diff
+
+应用补丁 / Apply the patch
+patch < st_combined_custom.diff
+
+编译并运行 / Build and run
+make
+./st

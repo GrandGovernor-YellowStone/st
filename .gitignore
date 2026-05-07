@@ -3,4 +3,3 @@ st
 config.h
 *.orig
 *.rej
-st_combined_custom.diff
